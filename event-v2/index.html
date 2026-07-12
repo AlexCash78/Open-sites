@@ -387,7 +387,7 @@
       }
 
       .compare-row del {
-        color: #5c5c5c;
+        color: var(--color-ash-gray);
         text-decoration-color: rgba(255, 255, 255, .24);
       }
 
@@ -540,24 +540,36 @@
 
       .pricing {
         display: grid;
-        gap: var(--spacing-60);
-        margin-top: var(--spacing-60);
+        gap: var(--spacing-96);
+        margin-top: var(--spacing-96);
       }
 
       .tier {
         display: grid;
-        grid-template-columns: 170px minmax(0, .8fr) minmax(220px, .36fr);
-        gap: var(--spacing-36);
-        align-items: start;
+        grid-template-columns: minmax(0, .9fr) minmax(220px, .36fr);
+        gap: var(--spacing-60);
+        align-items: end;
       }
 
       .tier-code {
+        grid-column: 1;
+        grid-row: 1;
         color: var(--color-electric-iris);
         font-family: var(--font-mono);
         font-size: var(--text-nav-label);
         font-weight: 600;
         line-height: 1.2;
         text-transform: uppercase;
+      }
+
+      .tier > div:nth-child(2) {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .tier-action {
+        grid-column: 2;
+        grid-row: 1 / span 2;
       }
 
       .tier h3 {
@@ -698,11 +710,14 @@
         }
 
         .tier {
-          grid-template-columns: 120px minmax(0, 1fr);
+          grid-template-columns: 1fr;
         }
 
+        .tier-code,
+        .tier > div:nth-child(2),
         .tier-action {
-          grid-column: 2;
+          grid-column: auto;
+          grid-row: auto;
         }
       }
 
@@ -840,7 +855,7 @@
             <a href="#program">Программа</a>
             <a href="#speakers">Спикеры</a>
             <a href="#tariffs">Тарифы</a>
-            <a class="iris-button" href="#tariffs">Зарегистрироваться</a>
+            <a class="ghost-link" href="#tariffs">Зарегистрироваться</a>
           </div>
         </div>
       </nav>
@@ -1042,7 +1057,7 @@
                 </div>
                 <div class="tier-action">
                   <div class="price">0 ₽<span class="price-note">за подписку / регистрацию</span></div>
-                  <a class="iris-button" href="https://livefinance1.getcourse.ru/tarif_start" target="_blank" rel="noopener">Получить</a>
+                  <a class="ghost-link" href="https://livefinance1.getcourse.ru/tarif_start" target="_blank" rel="noopener">Получить</a>
                 </div>
               </article>
 
@@ -1066,7 +1081,7 @@
                 </div>
                 <div class="tier-action">
                   <div class="price">от 5 990 ₽<span class="price-note">клубная цена резидента Finance1: 2 990 ₽</span></div>
-                  <a class="iris-button" href="https://livefinance1.getcourse.ru/tarif_gold_ne_resident" target="_blank" rel="noopener">Забрать Gold</a>
+                  <a class="ghost-link" href="https://livefinance1.getcourse.ru/tarif_gold_ne_resident" target="_blank" rel="noopener">Забрать Gold</a>
                 </div>
               </article>
             </div>
@@ -1141,7 +1156,7 @@
       const ctx = canvas.getContext("2d");
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const countline = document.getElementById("countline");
-      const palette = ["#8052ff", "#ffb829", "#15846e", "#ff4fd8", "#4f7dff", "#ffffff", "#bdbdbd"];
+      const palette = ["#8052ff", "#ffb829", "#15846e", "#ff4fd8", "#4f7dff", "#9b5cff", "#00b8ff"];
       let width = 0;
       let height = 0;
       let ratio = 1;
@@ -1244,7 +1259,7 @@
             const distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < 76) {
               ctx.globalAlpha = .13 - distance / 760;
-              ctx.strokeStyle = "#bdbdbd";
+              ctx.strokeStyle = i % 2 ? "#8052ff" : "#15846e";
               ctx.lineWidth = 1;
               ctx.beginPath();
               ctx.moveTo(a.x, a.y);
