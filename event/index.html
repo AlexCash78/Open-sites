@@ -1,0 +1,1386 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="ИИ для прибыли 2026 - практическая онлайн-конференция Finance1 о том, как использовать искусственный интеллект для денег, времени и качества жизни.">
+    <title>ИИ для прибыли 2026 - Finance1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --paper: #f6f2e8;
+        --paper-strong: #fffaf0;
+        --ink: #11100e;
+        --ink-soft: #4f4a41;
+        --green: #0f4038;
+        --green-soft: #d8eadf;
+        --acid: #b8ff5c;
+        --amber: #ffb833;
+        --coral: #e65a3a;
+        --blue: #8fc7ff;
+        --line: rgba(17, 16, 14, .14);
+        --line-dark: rgba(246, 242, 232, .18);
+        --shadow: 0 18px 50px rgba(17, 16, 14, .12);
+        --display: "Unbounded", "Manrope", system-ui, sans-serif;
+        --body: "Manrope", system-ui, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--body);
+        font-size: 16px;
+        line-height: 1.5;
+        letter-spacing: 0;
+      }
+
+      body.locked {
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        position: fixed;
+        inset: 16px 0 auto;
+        z-index: 20;
+        pointer-events: none;
+      }
+
+      .nav-inner {
+        width: min(1180px, calc(100% - 40px));
+        height: 58px;
+        margin: 0 auto;
+        padding: 0 10px 0 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        background: rgba(246, 242, 232, .82);
+        border: 1px solid rgba(17, 16, 14, .13);
+        border-radius: 8px;
+        box-shadow: 0 12px 40px rgba(17, 16, 14, .12);
+        backdrop-filter: blur(16px);
+        pointer-events: auto;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--display);
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .brand-mark {
+        width: 26px;
+        height: 26px;
+        display: grid;
+        place-items: center;
+        color: var(--ink);
+        background: var(--acid);
+        border: 1px solid var(--ink);
+        border-radius: 6px;
+        font-family: var(--mono);
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: rgba(17, 16, 14, .72);
+      }
+
+      .nav-links a:hover,
+      .nav-links a:focus-visible {
+        color: var(--ink);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 20px;
+        border: 1px solid var(--ink);
+        border-radius: 6px;
+        background: var(--ink);
+        color: var(--paper-strong);
+        font-weight: 800;
+        text-decoration: none;
+        box-shadow: 0 8px 0 rgba(17, 16, 14, .18);
+        transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+      }
+
+      .btn:hover,
+      .btn:focus-visible {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 0 rgba(17, 16, 14, .14);
+      }
+
+      .btn.alt {
+        background: var(--acid);
+        color: var(--ink);
+      }
+
+      .btn.light {
+        background: var(--paper-strong);
+        color: var(--ink);
+      }
+
+      .hero {
+        position: relative;
+        min-height: 94svh;
+        padding: 128px 0 54px;
+        overflow: hidden;
+        background: var(--green);
+        color: var(--paper-strong);
+      }
+
+      .hero canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: .76;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(15, 64, 56, .96) 0%, rgba(15, 64, 56, .82) 42%, rgba(15, 64, 56, .36) 100%),
+          linear-gradient(180deg, rgba(15, 64, 56, .12), rgba(15, 64, 56, .86));
+        pointer-events: none;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 58px;
+        align-items: end;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 0 10px;
+        border: 1px solid var(--line-dark);
+        border-radius: 6px;
+        color: var(--acid);
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: 700;
+        background: rgba(246, 242, 232, .08);
+      }
+
+      h1,
+      h2,
+      h3,
+      .display {
+        margin: 0;
+        font-family: var(--display);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        max-width: 820px;
+        margin-top: 28px;
+        font-size: 70px;
+        font-weight: 700;
+      }
+
+      .hero-lead {
+        max-width: 650px;
+        margin: 24px 0 0;
+        color: rgba(255, 250, 240, .82);
+        font-size: 21px;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .event-pass {
+        align-self: stretch;
+        padding: 20px;
+        border: 1px solid var(--line-dark);
+        border-radius: 8px;
+        background: rgba(246, 242, 232, .08);
+        backdrop-filter: blur(14px);
+      }
+
+      .pass-label {
+        color: rgba(255, 250, 240, .62);
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .pass-date {
+        margin-top: 18px;
+        color: var(--acid);
+        font-family: var(--display);
+        font-size: 38px;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+
+      .pass-lines {
+        display: grid;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .pass-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        padding-top: 10px;
+        border-top: 1px solid var(--line-dark);
+        color: rgba(255, 250, 240, .78);
+        font-size: 14px;
+      }
+
+      .pass-line strong {
+        color: var(--paper-strong);
+      }
+
+      .ticker {
+        position: relative;
+        z-index: 2;
+        margin-top: 70px;
+        border-top: 1px solid var(--line-dark);
+        border-bottom: 1px solid var(--line-dark);
+        overflow: hidden;
+      }
+
+      .ticker-track {
+        display: flex;
+        width: max-content;
+        animation: ticker 32s linear infinite;
+      }
+
+      .ticker span {
+        padding: 14px 24px;
+        color: rgba(255, 250, 240, .7);
+        font-family: var(--mono);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .ticker b {
+        color: var(--amber);
+      }
+
+      @keyframes ticker {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+      }
+
+      section {
+        padding: 84px 0;
+      }
+
+      .section-head {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 52px;
+        margin-bottom: 38px;
+      }
+
+      .section-tag {
+        color: var(--coral);
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      h2 {
+        max-width: 760px;
+        font-size: 44px;
+        font-weight: 700;
+      }
+
+      .section-copy {
+        max-width: 730px;
+        margin-top: 16px;
+        color: var(--ink-soft);
+        font-size: 18px;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--paper-strong);
+      }
+
+      .about-item {
+        min-height: 210px;
+        padding: 24px;
+        border-right: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .about-item:last-child {
+        border-right: 0;
+      }
+
+      .about-item .num {
+        color: var(--green);
+        font-family: var(--display);
+        font-size: 34px;
+        font-weight: 700;
+      }
+
+      .about-item h3 {
+        margin-top: 24px;
+        font-size: 22px;
+      }
+
+      .about-item p {
+        margin: 10px 0 0;
+        color: var(--ink-soft);
+      }
+
+      .split-dark {
+        background: var(--ink);
+        color: var(--paper-strong);
+      }
+
+      .split-dark .section-copy,
+      .split-dark p {
+        color: rgba(255, 250, 240, .74);
+      }
+
+      .diff {
+        display: grid;
+        grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+        gap: 44px;
+        align-items: start;
+      }
+
+      .diff-list {
+        display: grid;
+        gap: 1px;
+        overflow: hidden;
+        border: 1px solid var(--line-dark);
+        border-radius: 8px;
+        background: var(--line-dark);
+      }
+
+      .diff-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        background: #1c1a17;
+      }
+
+      .diff-row div {
+        padding: 18px;
+      }
+
+      .diff-row div:first-child {
+        color: rgba(255, 250, 240, .46);
+        text-decoration: line-through;
+      }
+
+      .diff-row div:last-child {
+        color: var(--acid);
+        font-weight: 800;
+      }
+
+      .program {
+        display: grid;
+        gap: 22px;
+      }
+
+      .day {
+        display: grid;
+        grid-template-columns: 270px minmax(0, 1fr);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper-strong);
+        overflow: hidden;
+      }
+
+      .day-side {
+        padding: 24px;
+        background: var(--green-soft);
+        border-right: 1px solid var(--line);
+      }
+
+      .day-side .display {
+        color: var(--green);
+        font-size: 28px;
+      }
+
+      .day-side p {
+        margin: 12px 0 0;
+        color: var(--ink-soft);
+        font-weight: 700;
+      }
+
+      .day-main {
+        padding: 26px;
+      }
+
+      .day-main h3 {
+        font-size: 26px;
+      }
+
+      .day-main p {
+        margin: 12px 0 20px;
+        color: var(--ink-soft);
+      }
+
+      .topic-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .topic-grid li {
+        min-height: 52px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: rgba(15, 64, 56, .04);
+        font-weight: 700;
+      }
+
+      .speakers-layout {
+        display: grid;
+        grid-template-columns: 360px minmax(0, 1fr);
+        gap: 28px;
+      }
+
+      .speaker-card,
+      .speaker-note,
+      .price-card,
+      .faq-item {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper-strong);
+      }
+
+      .speaker-card {
+        padding: 24px;
+      }
+
+      .portrait {
+        width: 118px;
+        height: 118px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        background:
+          linear-gradient(135deg, var(--green) 0 49%, var(--acid) 50% 100%);
+        color: var(--paper-strong);
+        font-family: var(--display);
+        font-size: 34px;
+        font-weight: 700;
+      }
+
+      .speaker-card h3 {
+        margin-top: 24px;
+        font-size: 26px;
+      }
+
+      .speaker-role {
+        margin-top: 8px;
+        color: var(--coral);
+        font-weight: 800;
+      }
+
+      .speaker-card ul,
+      .speaker-note ul {
+        display: grid;
+        gap: 10px;
+        margin: 20px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .speaker-card li,
+      .speaker-note li {
+        position: relative;
+        padding-left: 18px;
+        color: var(--ink-soft);
+      }
+
+      .speaker-card li::before,
+      .speaker-note li::before {
+        content: "";
+        position: absolute;
+        top: .65em;
+        left: 0;
+        width: 7px;
+        height: 7px;
+        background: var(--amber);
+        border-radius: 50%;
+      }
+
+      .speaker-note {
+        padding: 28px;
+      }
+
+      .talk-formula {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 20px 0 26px;
+      }
+
+      .talk-formula span {
+        padding: 8px 10px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: rgba(184, 255, 92, .22);
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .price-card {
+        position: relative;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .price-card.featured {
+        background: var(--green);
+        color: var(--paper-strong);
+        transform: translateY(-10px);
+      }
+
+      .badge {
+        width: max-content;
+        padding: 6px 9px;
+        border: 1px solid currentColor;
+        border-radius: 6px;
+        color: var(--coral);
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .price-card.featured .badge {
+        color: var(--acid);
+      }
+
+      .price-card h3 {
+        margin-top: 18px;
+        font-size: 25px;
+      }
+
+      .price {
+        margin-top: 18px;
+        font-family: var(--display);
+        font-size: 36px;
+        font-weight: 700;
+      }
+
+      .price small {
+        display: block;
+        margin-top: 6px;
+        color: var(--ink-soft);
+        font-family: var(--body);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .featured .price small,
+      .featured li {
+        color: rgba(255, 250, 240, .72);
+      }
+
+      .price-card ul {
+        display: grid;
+        gap: 10px;
+        margin: 22px 0 26px;
+        padding: 0;
+        list-style: none;
+      }
+
+      .price-card li {
+        color: var(--ink-soft);
+      }
+
+      .price-card li::before {
+        content: "+";
+        margin-right: 8px;
+        color: var(--coral);
+        font-weight: 900;
+      }
+
+      .featured li::before {
+        color: var(--acid);
+      }
+
+      .price-card .btn {
+        margin-top: auto;
+        width: 100%;
+      }
+
+      .terms {
+        margin-top: 22px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(143, 199, 255, .24);
+        color: var(--ink-soft);
+        font-weight: 700;
+      }
+
+      .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .faq-item {
+        padding: 22px;
+      }
+
+      .faq-item h3 {
+        font-family: var(--body);
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .faq-item p {
+        margin: 10px 0 0;
+        color: var(--ink-soft);
+      }
+
+      .final {
+        padding: 78px 0;
+        background:
+          radial-gradient(circle at 90% 20%, rgba(184, 255, 92, .28), transparent 28%),
+          radial-gradient(circle at 10% 80%, rgba(230, 90, 58, .22), transparent 30%),
+          var(--green);
+        color: var(--paper-strong);
+      }
+
+      .final-box {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 40px;
+        align-items: center;
+      }
+
+      .final h2 {
+        max-width: 760px;
+      }
+
+      .final p {
+        max-width: 620px;
+        margin: 18px 0 0;
+        color: rgba(255, 250, 240, .76);
+        font-size: 18px;
+      }
+
+      .contact-panel {
+        padding: 22px;
+        border: 1px solid var(--line-dark);
+        border-radius: 8px;
+        background: rgba(246, 242, 232, .08);
+      }
+
+      .contact-panel a {
+        display: block;
+        margin-top: 12px;
+        color: var(--acid);
+        font-weight: 900;
+        text-decoration: none;
+      }
+
+      footer {
+        padding: 30px 0 82px;
+        background: var(--ink);
+        color: rgba(255, 250, 240, .58);
+        font-size: 13px;
+      }
+
+      .footer-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: space-between;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .footer-links a {
+        color: rgba(255, 250, 240, .68);
+      }
+
+      .sticky-cta {
+        position: fixed;
+        inset: auto 16px 16px;
+        z-index: 30;
+        display: none;
+      }
+
+      .sticky-cta .btn {
+        width: 100%;
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--blue);
+        outline-offset: 3px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: .01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: .01ms !important;
+        }
+      }
+
+      @media (max-width: 980px) {
+        .nav-links a:not(.btn) {
+          display: none;
+        }
+
+        .hero-content,
+        .diff,
+        .speakers-layout,
+        .final-box {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: 54px;
+        }
+
+        h2 {
+          font-size: 36px;
+        }
+
+        .event-pass {
+          max-width: 430px;
+        }
+
+        .about-grid,
+        .pricing-grid,
+        .faq-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .about-item:nth-child(2) {
+          border-right: 0;
+        }
+
+        .about-item:nth-child(1),
+        .about-item:nth-child(2) {
+          border-bottom: 1px solid var(--line);
+        }
+
+        .price-card.featured {
+          transform: none;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .wrap,
+        .nav-inner {
+          width: min(100% - 28px, 1180px);
+        }
+
+        .nav {
+          inset: 10px 0 auto;
+        }
+
+        .nav-inner {
+          height: 54px;
+        }
+
+        .nav-links .btn {
+          display: none;
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 102px 0 42px;
+        }
+
+        h1 {
+          font-size: 40px;
+        }
+
+        .hero-lead {
+          font-size: 18px;
+        }
+
+        .section-head {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        section {
+          padding: 62px 0;
+        }
+
+        .about-grid,
+        .pricing-grid,
+        .faq-grid,
+        .day,
+        .topic-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .about-item,
+        .about-item:nth-child(2) {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .about-item:last-child {
+          border-bottom: 0;
+        }
+
+        .day-side {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .diff-row {
+          grid-template-columns: 1fr;
+        }
+
+        .diff-row div:last-child {
+          border-top: 1px solid var(--line-dark);
+        }
+
+        .footer-row {
+          display: grid;
+          gap: 16px;
+        }
+
+        .sticky-cta {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav" aria-label="Главная навигация">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="ИИ для прибыли 2026">
+          <span class="brand-mark">F1</span>
+          <span>ИИ для прибыли</span>
+        </a>
+        <div class="nav-links">
+          <a href="#about">О событии</a>
+          <a href="#program">Программа</a>
+          <a href="#speakers">Спикеры</a>
+          <a href="#pricing">Участие</a>
+          <a class="btn alt" href="#pricing">Выбрать тариф</a>
+        </div>
+      </div>
+    </nav>
+
+    <main id="top">
+      <header class="hero">
+        <canvas id="signalCanvas" aria-hidden="true"></canvas>
+        <div class="wrap hero-content">
+          <div>
+            <span class="kicker">Онлайн-конференция Finance1</span>
+            <h1>ИИ для прибыли 2026</h1>
+            <p class="hero-lead">Как инвестору, предпринимателю и обычному человеку зарабатывать, экономить время и принимать более выгодные решения с помощью искусственного интеллекта.</p>
+            <div class="hero-actions">
+              <a class="btn alt" href="#pricing">Выбрать участие</a>
+              <a class="btn light" href="#program">Смотреть программу</a>
+            </div>
+          </div>
+          <aside class="event-pass" aria-label="Дата и формат мероприятия">
+            <div class="pass-label">ДАТА / ФОРМАТ / ВРЕМЯ</div>
+            <div class="pass-date">19-20 сентября 2026</div>
+            <div class="pass-lines">
+              <div class="pass-line"><span>Формат</span><strong>Онлайн</strong></div>
+              <div class="pass-line"><span>Время</span><strong>11:00-18:00</strong></div>
+              <div class="pass-line"><span>Длительность</span><strong>2 дня практики</strong></div>
+              <div class="pass-line"><span>До старта</span><strong id="countdown">считаем...</strong></div>
+            </div>
+          </aside>
+        </div>
+        <div class="ticker" aria-hidden="true">
+          <div class="ticker-track">
+            <span><b>Деньги</b> - личные финансы, инвестиции, покупки</span>
+            <span><b>Жизнь</b> - время, путешествия, обучение, семья</span>
+            <span><b>Практика</b> - инструменты, кейсы, чек-листы</span>
+            <span><b>Finance1</b> - без лишней теории</span>
+            <span><b>Деньги</b> - личные финансы, инвестиции, покупки</span>
+            <span><b>Жизнь</b> - время, путешествия, обучение, семья</span>
+            <span><b>Практика</b> - инструменты, кейсы, чек-листы</span>
+            <span><b>Finance1</b> - без лишней теории</span>
+          </div>
+        </div>
+      </header>
+
+      <section id="about">
+        <div class="wrap">
+          <div class="section-head">
+            <div class="section-tag">О КОНФЕРЕНЦИИ</div>
+            <div>
+              <h2>ИИ не вместо мышления, а как усилитель денег, времени и решений.</h2>
+              <p class="section-copy">Большинство конференций про ИИ продают тренды. Здесь фокус другой: сценарии, инструменты и действия, которые можно применить в инвестициях, бизнесе и обычной жизни.</p>
+            </div>
+          </div>
+
+          <div class="about-grid">
+            <article class="about-item">
+              <div class="num">01</div>
+              <div>
+                <h3>Инвесторам</h3>
+                <p>Анализ компаний, новостей, отчетности, инвестиционные идеи и недвижимость.</p>
+              </div>
+            </article>
+            <article class="about-item">
+              <div class="num">02</div>
+              <div>
+                <h3>Предпринимателям</h3>
+                <p>Личный ассистент, маркетинг, задачи, решения и экономия времени.</p>
+              </div>
+            </article>
+            <article class="about-item">
+              <div class="num">03</div>
+              <div>
+                <h3>Обычным людям</h3>
+                <p>Покупки, путешествия, ремонт, семья, обучение и бытовая экономия.</p>
+              </div>
+            </article>
+            <article class="about-item">
+              <div class="num">04</div>
+              <div>
+                <h3>Без кода</h3>
+                <p>Понятный вход в ИИ без технического опыта и сложной терминологии.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="split-dark">
+        <div class="wrap diff">
+          <div>
+            <div class="section-tag">ЧЕМ ОТЛИЧАЕМСЯ</div>
+            <h2>Меньше футурологии, больше пользы уже завтра.</h2>
+            <p class="section-copy">Прибыль - это не только доход. Это еще и не переплатить, быстрее разобраться, не принять ошибочное решение и освободить часы от рутины.</p>
+          </div>
+          <div class="diff-list" aria-label="Сравнение форматов">
+            <div class="diff-row"><div>Футурология</div><div>Сценарии на завтра</div></div>
+            <div class="diff-row"><div>Сложные технологии</div><div>Понятный вход без кода</div></div>
+            <div class="diff-row"><div>Только для айтишников</div><div>Для денег и для жизни</div></div>
+            <div class="diff-row"><div>Когда-нибудь изменит мир</div><div>Польза уже сегодня</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="program">
+        <div class="wrap">
+          <div class="section-head">
+            <div class="section-tag">ПРОГРАММА / 2 ДНЯ</div>
+            <div>
+              <h2>Деньги плюс жизнь: два больших блока без воды.</h2>
+              <p class="section-copy">Финальная программа и порядок выступлений будут опубликованы ближе к старту. Ниже - концепция дней и темы, которые заявлены на сайте мероприятия.</p>
+            </div>
+          </div>
+
+          <div class="program">
+            <article class="day">
+              <div class="day-side">
+                <div class="display">День 01</div>
+                <p>ИИ и деньги</p>
+              </div>
+              <div class="day-main">
+                <h3>Деньги, инвестиции и выгодные решения</h3>
+                <p>Личные финансы, экономия, покупки, крупные решения и инвестиции. Итог дня - понимание, где ИИ помогает заработать, сэкономить и принять более выгодное финансовое решение.</p>
+                <ul class="topic-grid">
+                  <li>ИИ как личный финансовый помощник</li>
+                  <li>Анализ расходов и скрытая экономия</li>
+                  <li>Лучшие цены на товары и услуги</li>
+                  <li>Авиабилеты, отели и путешествия дешевле</li>
+                  <li>Аренда или покупка, кредит или рассрочка</li>
+                  <li>Авто, недвижимость и стоимость владения</li>
+                  <li>Инвестидеи и анализ компаний</li>
+                  <li>Отчеты и новости в разы быстрее</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="day">
+              <div class="day-side">
+                <div class="display">День 02</div>
+                <p>ИИ и жизнь</p>
+              </div>
+              <div class="day-main">
+                <h3>Время, эффективность и качество жизни</h3>
+                <p>Личная эффективность, путешествия, обучение, семья, ремонт и повседневные задачи. Итог дня - конкретные сценарии, которые можно применить уже завтра.</p>
+                <ul class="topic-grid">
+                  <li>Ассистент для 5-10 свободных часов в неделю</li>
+                  <li>Планирование задач и личной эффективности</li>
+                  <li>Путешествие за 15 минут вместо часов поиска</li>
+                  <li>Ремонт квартиры, дома или дачи</li>
+                  <li>Обучение детей и развитие семьи</li>
+                  <li>Новые навыки и карьерный рост</li>
+                  <li>Лучшие бесплатные ИИ-инструменты</li>
+                  <li>Ошибки ИИ и проверка ответов</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="speakers" class="split-dark">
+        <div class="wrap">
+          <div class="section-head">
+            <div class="section-tag">СПИКЕРЫ</div>
+            <div>
+              <h2>Практики, а не докладчики.</h2>
+              <p class="section-copy">Каждый доклад строится от проблемы к действию: что было сложно, как помогает ИИ, какие инструменты использовать и что сделать завтра.</p>
+            </div>
+          </div>
+
+          <div class="speakers-layout">
+            <article class="speaker-card">
+              <div class="portrait" aria-hidden="true">АЧ</div>
+              <h3>Алексей Чудик</h3>
+              <div class="speaker-role">Организатор и спикер инвест-мероприятий</div>
+              <ul>
+                <li>В инвестициях с 2017 года</li>
+                <li>Недвижимость, фондовый и крипто-рынок</li>
+                <li>Мероприятия Finance1 в РФ и за рубежом</li>
+                <li>Направление «Путешествия со смыслом»</li>
+                <li>Квалифицированный инвестор, сертификат ФСФР</li>
+                <li>Амбассадор инвестиционного клуба Finance1</li>
+              </ul>
+              <p style="margin: 22px 0 0;"><a href="https://t.me/invest_Chudik" target="_blank" rel="noopener">Telegram-канал Алексея</a></p>
+            </article>
+
+            <article class="speaker-note">
+              <h3>Состав спикеров формируется</h3>
+              <p>Финальный список будет анонсирован ближе к старту конференции. Критерий отбора - не громкое имя, а понятный кейс и сценарий, который участник сможет повторить.</p>
+              <div class="talk-formula" aria-label="Формула доклада">
+                <span>Проблема</span>
+                <span>Как было</span>
+                <span>Как меняет ИИ</span>
+                <span>Пример</span>
+                <span>Инструменты</span>
+                <span>Что сделать завтра</span>
+              </div>
+              <ul>
+                <li>Каждый спикер показывает конкретный кейс и понятный сценарий применения.</li>
+                <li>Называет инструменты и результат, который можно повторить самому.</li>
+                <li>Честно говорит об ошибках и ограничениях, а не только об успехах.</li>
+                <li>Не обещает доходность и не привлекает инвестиции.</li>
+                <li>Говорит языком людей, а не программистов.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <div class="wrap">
+          <div class="section-head">
+            <div class="section-tag">УСЛОВИЯ УЧАСТИЯ</div>
+            <div>
+              <h2>Можно начать бесплатно, а глубину выбрать по задаче.</h2>
+              <p class="section-copy">На сайте заявлены три уровня участия. Стоимость динамическая: чем ближе старт конференции, тем выше цена. Для резидентов Finance1 предусмотрена клубная цена.</p>
+            </div>
+          </div>
+
+          <div class="pricing-grid">
+            <article class="price-card">
+              <div class="badge">Тариф 0</div>
+              <h3>Start</h3>
+              <div class="price">0 ₽<small>за подписку / регистрацию</small></div>
+              <ul>
+                <li>ТОП-5 презентаций спикеров</li>
+                <li>Доступ к материалам на 3 месяца</li>
+                <li>Понимание, стоит ли идти глубже</li>
+              </ul>
+              <a class="btn light" href="https://livefinance1.getcourse.ru/tarif_start" target="_blank" rel="noopener">Получить презентации</a>
+            </article>
+
+            <article class="price-card featured">
+              <div class="badge">Лучший выбор</div>
+              <h3>Silver · Участник</h3>
+              <div class="price">от 2 990 ₽<small>клубная цена резидента: 1 990 ₽</small></div>
+              <ul>
+                <li>Доступ к онлайн-конференции, оба дня</li>
+                <li>Прямые эфиры всех выступлений</li>
+                <li>Практические идеи и инструменты</li>
+              </ul>
+              <a class="btn alt" href="https://livefinance1.getcourse.ru/tarif_silver_ne_resident" target="_blank" rel="noopener">Участвовать</a>
+            </article>
+
+            <article class="price-card">
+              <div class="badge">Тариф 2</div>
+              <h3>Gold · Практик</h3>
+              <div class="price">от 5 990 ₽<small>клубная цена резидента: 2 990 ₽</small></div>
+              <ul>
+                <li>Все из тарифа Silver</li>
+                <li>Презентации спикеров</li>
+                <li>Материалы, чек-листы и подборки инструментов</li>
+                <li>Доступ ко всем материалам на 6 месяцев</li>
+              </ul>
+              <a class="btn light" href="https://livefinance1.getcourse.ru/tarif_gold_ne_resident" target="_blank" rel="noopener">Забрать Gold</a>
+            </article>
+          </div>
+
+          <div class="terms">
+            Если вы покупаете участие как резидент Finance1, членство в клубе должно быть актуальным на момент покупки и мероприятия. При несоответствии условий потребуется доплата.
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="wrap">
+          <div class="section-head">
+            <div class="section-tag">FAQ</div>
+            <div>
+              <h2>Коротко о важном.</h2>
+            </div>
+          </div>
+          <div class="faq-grid">
+            <article class="faq-item">
+              <h3>Это только для инвесторов и предпринимателей?</h3>
+              <p>Нет. Первый день - про деньги, инвестиции, экономию и выгодные решения. Второй - про время, путешествия, обучение, семью и повседневную эффективность.</p>
+            </article>
+            <article class="faq-item">
+              <h3>Нужен ли технический опыт?</h3>
+              <p>Нет. Конференция рассчитана на понятный практический вход в ИИ без сложной терминологии.</p>
+            </article>
+            <article class="faq-item">
+              <h3>Это онлайн или офлайн?</h3>
+              <p>Полностью онлайн. Два дня, 19-20 сентября 2026, с 11:00 до 18:00.</p>
+            </article>
+            <article class="faq-item">
+              <h3>Чем Gold отличается от Silver?</h3>
+              <p>Silver дает полный онлайн-доступ к прямым эфирам. Gold добавляет презентации, материалы, чек-листы и подборки инструментов для внедрения.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="final">
+        <div class="wrap final-box">
+          <div>
+            <div class="section-tag">РЕГИСТРАЦИЯ ОТКРЫТА</div>
+            <h2>Используйте ИИ для денег и для жизни.</h2>
+            <p>19-20 сентября 2026 · Онлайн · 11:00-18:00</p>
+            <div class="hero-actions">
+              <a class="btn alt" href="#pricing">Выбрать участие</a>
+              <a class="btn light" href="https://t.me/manager_FINANCE1" target="_blank" rel="noopener">Написать в поддержку</a>
+            </div>
+          </div>
+          <aside class="contact-panel">
+            <strong>Контакты</strong>
+            <a href="https://t.me/manager_FINANCE1" target="_blank" rel="noopener">Поддержка Finance1</a>
+            <a href="https://t.me/invest_Chudik" target="_blank" rel="noopener">Telegram-канал Алексея</a>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap footer-row">
+        <div>
+          ИИ для прибыли 2026 · Finance1<br>
+          Организатор: ИП Чудик Алексей Викторович · ИНН 260202371146 · ОГРН 319505300005550
+        </div>
+        <div class="footer-links">
+          <a href="https://livefinance1.getcourse.ru/oferta" target="_blank" rel="noopener">Оферта</a>
+          <a href="https://livefinance1.getcourse.ru/OPD" target="_blank" rel="noopener">Согласие ОПД</a>
+          <a href="https://livefinance1.getcourse.ru/rassylka-reklama" target="_blank" rel="noopener">Рассылка</a>
+          <a href="https://livefinance1.getcourse.ru/cms/system/legal" target="_blank" rel="noopener">Политика данных</a>
+        </div>
+      </div>
+    </footer>
+
+    <div class="sticky-cta">
+      <a class="btn alt" href="#pricing">Выбрать участие</a>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("signalCanvas");
+      const ctx = canvas.getContext("2d");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const colors = ["#b8ff5c", "#ffb833", "#8fc7ff", "#e65a3a"];
+      let points = [];
+      let width = 0;
+      let height = 0;
+      let frame = 0;
+
+      function resizeCanvas() {
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        width = canvas.clientWidth;
+        height = canvas.clientHeight;
+        canvas.width = Math.floor(width * ratio);
+        canvas.height = Math.floor(height * ratio);
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        points = Array.from({ length: width < 720 ? 38 : 76 }, (_, index) => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - .5) * .45,
+          vy: (Math.random() - .5) * .45,
+          r: 2 + Math.random() * 2.5,
+          c: colors[index % colors.length]
+        }));
+      }
+
+      function drawGrid() {
+        ctx.strokeStyle = "rgba(246, 242, 232, .09)";
+        ctx.lineWidth = 1;
+        for (let x = 0; x < width; x += 72) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, height);
+          ctx.stroke();
+        }
+        for (let y = 0; y < height; y += 72) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y);
+          ctx.stroke();
+        }
+      }
+
+      function drawSignals() {
+        ctx.clearRect(0, 0, width, height);
+        drawGrid();
+        points.forEach((p, i) => {
+          if (!prefersReducedMotion) {
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < -20) p.x = width + 20;
+            if (p.x > width + 20) p.x = -20;
+            if (p.y < -20) p.y = height + 20;
+            if (p.y > height + 20) p.y = -20;
+          }
+
+          for (let j = i + 1; j < points.length; j += 1) {
+            const q = points[j];
+            const dx = p.x - q.x;
+            const dy = p.y - q.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 145) {
+              ctx.strokeStyle = `rgba(246, 242, 232, ${0.18 - dist / 900})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.stroke();
+            }
+          }
+
+          ctx.fillStyle = p.c;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r + Math.sin(frame / 24 + i) * .55, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        ctx.strokeStyle = "rgba(184, 255, 92, .7)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let x = 0; x <= width; x += 18) {
+          const y = height * .63 + Math.sin(x / 80 + frame / 34) * 34 + Math.cos(x / 36) * 12;
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        frame += 1;
+        if (!prefersReducedMotion) requestAnimationFrame(drawSignals);
+      }
+
+      resizeCanvas();
+      drawSignals();
+      window.addEventListener("resize", resizeCanvas);
+
+      const countdownEl = document.getElementById("countdown");
+      const startDate = new Date("2026-09-19T11:00:00+03:00");
+
+      function updateCountdown() {
+        const diff = startDate.getTime() - Date.now();
+        if (diff <= 0) {
+          countdownEl.textContent = "идет сейчас";
+          return;
+        }
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        countdownEl.textContent = `${days} дн. ${hours} ч.`;
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 60000);
+    </script>
+  </body>
+</html>
