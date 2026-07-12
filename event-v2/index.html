@@ -40,7 +40,7 @@
         --spacing-60: 60px;
         --spacing-96: 96px;
         --spacing-120: 120px;
-        --radius-pill: 9999px;
+        --radius-pill: 24px;
         --radius-soft: 24px;
       }
 
@@ -85,10 +85,7 @@
       .page {
         position: relative;
         overflow: hidden;
-        background:
-          radial-gradient(circle at 78% 16%, rgba(128, 82, 255, .18), transparent 30%),
-          radial-gradient(circle at 14% 38%, rgba(21, 132, 110, .11), transparent 28%),
-          var(--color-void);
+        background: var(--color-void);
       }
 
       .sky {
@@ -101,16 +98,7 @@
       }
 
       .grain {
-        position: fixed;
-        inset: 0;
-        z-index: 1;
-        pointer-events: none;
-        opacity: .11;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, .08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
-        background-size: 96px 96px;
-        mask-image: radial-gradient(circle at 65% 8%, black, transparent 72%);
+        display: none;
       }
 
       .content {
@@ -205,7 +193,7 @@
 
       .iris-button:hover {
         transform: translateY(-2px);
-        background: #936cff;
+        background: var(--color-electric-iris);
       }
 
       .ghost-link {
@@ -476,6 +464,33 @@
         color: var(--color-bone-white);
         font-size: var(--text-heading);
         line-height: 1.1;
+      }
+
+      .speaker-role {
+        margin-top: var(--spacing-24);
+        color: var(--color-electric-iris);
+        font-size: var(--text-caption);
+        font-weight: 600;
+        line-height: 1.5;
+        text-transform: uppercase;
+      }
+
+      .socials {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-12);
+        margin-top: var(--spacing-24);
+      }
+
+      .socials a {
+        color: var(--color-ash-gray);
+        font-size: var(--text-nav-label);
+        font-weight: 400;
+        text-decoration: none;
+      }
+
+      .socials a:hover {
+        color: var(--color-bone-white);
       }
 
       .bio-list,
@@ -982,9 +997,13 @@
             <div>
               <p class="eyebrow">Спикеры</p>
               <h2>Практики, а не докладчики.</h2>
+              <div class="speaker-role">Организатор · инвестиции с 2017 года</div>
               <div class="speaker-name">Алексей Чудик</div>
               <p class="muted" style="margin-top: 16px;">Организатор и спикер инвест-мероприятий. Автор блога о деньгах, мышлении и свободе через путешествия и инвестиции.</p>
-              <p style="margin-top: 26px;"><a class="ghost-link" href="https://t.me/invest_Chudik" target="_blank" rel="noopener">Telegram-канал Алексея</a></p>
+              <div class="socials" aria-label="Ссылки спикера">
+                <a href="https://t.me/invest_Chudik" target="_blank" rel="noopener">TG</a>
+                <a href="https://t.me/manager_FINANCE1" target="_blank" rel="noopener">F1</a>
+              </div>
             </div>
             <div>
               <p class="lead">На сцене Finance1 спикер делится опытом, а не продает. Каждый доклад строится по одной формуле - от проблемы к конкретному действию.</p>
@@ -1122,7 +1141,7 @@
       const ctx = canvas.getContext("2d");
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const countline = document.getElementById("countline");
-      const palette = ["#8052ff", "#ffb829", "#15846e", "#ffffff", "#bdbdbd"];
+      const palette = ["#8052ff", "#ffb829", "#15846e", "#ff4fd8", "#4f7dff", "#ffffff", "#bdbdbd"];
       let width = 0;
       let height = 0;
       let ratio = 1;
@@ -1130,13 +1149,21 @@
       let sparks = [];
       let tick = 0;
 
-      function brainPoint(t, side) {
-        const angle = t * Math.PI * 2;
-        const wobble = Math.sin(angle * 3) * 0.05 + Math.cos(angle * 5) * 0.03;
-        const r = 0.42 + wobble;
-        const x = Math.cos(angle) * r * (side === "left" ? 0.78 : 0.88) + (side === "left" ? -0.18 : 0.2);
-        const y = Math.sin(angle) * r * (side === "left" ? 1.05 : 1.0) - 0.02;
-        return { x, y };
+      function seeded(seed) {
+        const value = Math.sin(seed * 12.9898) * 43758.5453;
+        return value - Math.floor(value);
+      }
+
+      function brainPoint(index, total) {
+        const side = index % 2 ? -1 : 1;
+        const layer = seeded(index + 3);
+        const angle = seeded(index + 11) * Math.PI * 2;
+        const radius = Math.sqrt(layer) * (0.18 + seeded(index + 23) * 0.82);
+        const lobe = side === -1 ? -0.2 : 0.2;
+        const x = Math.cos(angle) * radius * (side === -1 ? 0.58 : 0.64) + lobe + Math.sin(index * 0.21) * 0.08;
+        const y = Math.sin(angle) * radius * 0.72 + Math.cos(index * 0.13) * 0.08;
+        const bridge = index / total > .42 && index / total < .58;
+        return bridge ? { x: x * 0.48, y: y * 0.72 } : { x, y };
       }
 
       function resize() {
@@ -1151,29 +1178,28 @@
         const centerX = width * (width < 760 ? 0.62 : 0.68);
         const centerY = height * (width < 760 ? 0.36 : 0.42);
         const scale = Math.min(width, height) * (width < 760 ? 0.72 : 0.58);
-        const total = width < 760 ? 72 : 138;
+        const total = width < 760 ? 420 : 1400;
         nodes = [];
         for (let i = 0; i < total; i += 1) {
-          const t = i / total;
-          const side = i % 2 ? "left" : "right";
-          const p = brainPoint(t, side);
+          const p = brainPoint(i, total);
           const jitter = (i % 9) / 9;
           nodes.push({
-            baseX: centerX + p.x * scale + Math.sin(i * 12.9) * scale * 0.08,
-            baseY: centerY + p.y * scale + Math.cos(i * 7.7) * scale * 0.08,
-            vx: Math.sin(i) * 0.08,
-            vy: Math.cos(i * 1.7) * 0.08,
-            size: 3 + (i % 5) * 0.55,
+            baseX: centerX + p.x * scale,
+            baseY: centerY + p.y * scale,
+            vx: Math.sin(i) * 0.035,
+            vy: Math.cos(i * 1.7) * 0.035,
+            size: 1.15 + seeded(i + 41) * 1.15,
             color: palette[i % palette.length],
-            phase: jitter * Math.PI * 2
+            phase: jitter * Math.PI * 2,
+            link: i % 9 === 0
           });
         }
-        sparks = Array.from({ length: width < 760 ? 34 : 64 }, (_, i) => ({
+        sparks = Array.from({ length: width < 760 ? 150 : 360 }, (_, i) => ({
           x: Math.random() * width,
           y: Math.random() * height,
-          size: 1 + Math.random() * 2,
-          color: i % 3 === 0 ? "#ffb829" : "#8052ff",
-          alpha: .25 + Math.random() * .45
+          size: .75 + Math.random() * 1.6,
+          color: palette[i % palette.length],
+          alpha: .12 + Math.random() * .3
         }));
       }
 
@@ -1182,27 +1208,21 @@
         ctx.translate(x, y);
         ctx.rotate((x + y + tick) * 0.006);
         ctx.globalAlpha = alpha;
-        ctx.fillStyle = color;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(0, -size);
         ctx.lineTo(size * .9, size * .8);
         ctx.lineTo(-size * .9, size * .8);
         ctx.closePath();
-        ctx.fill();
+        ctx.stroke();
         ctx.restore();
       }
 
       function draw() {
         ctx.clearRect(0, 0, width, height);
-        const gradient = ctx.createRadialGradient(width * .68, height * .36, 40, width * .68, height * .36, Math.max(width, height) * .62);
-        gradient.addColorStop(0, "rgba(128,82,255,.12)");
-        gradient.addColorStop(.42, "rgba(21,132,110,.05)");
-        gradient.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, width, height);
-
         sparks.forEach((s, i) => {
-          const pulse = reduceMotion ? 0 : Math.sin(tick * .018 + i) * .15;
+          const pulse = reduceMotion ? 0 : Math.sin(tick * .018 + i) * .08;
           triangle(s.x, s.y, s.size, s.color, s.alpha + pulse);
         });
 
@@ -1214,14 +1234,16 @@
         }));
 
         for (let i = 0; i < liveNodes.length; i += 1) {
+          if (!nodes[i].link) continue;
           const a = liveNodes[i];
-          for (let j = i + 1; j < liveNodes.length; j += 1) {
+          for (let step = 9; step <= 45; step += 18) {
+            const j = (i + step) % liveNodes.length;
             const b = liveNodes[j];
             const dx = a.x - b.x;
             const dy = a.y - b.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < 92) {
-              ctx.globalAlpha = .18 - distance / 640;
+            if (distance < 76) {
+              ctx.globalAlpha = .13 - distance / 760;
               ctx.strokeStyle = "#bdbdbd";
               ctx.lineWidth = 1;
               ctx.beginPath();
@@ -1234,7 +1256,7 @@
         ctx.globalAlpha = 1;
 
         liveNodes.forEach((n, i) => {
-          triangle(n.x, n.y, n.size + Math.sin(tick * .024 + i) * .5, n.color, i % 7 === 0 ? .95 : .72);
+          triangle(n.x, n.y, n.size + Math.sin(tick * .024 + i) * .25, n.color, i % 7 === 0 ? .82 : .5);
         });
 
         tick += 1;
